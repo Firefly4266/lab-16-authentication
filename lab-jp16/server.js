@@ -4,9 +4,11 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const debug = require('debug')('auth:server');
+const httpErrors = require('http-errors');
 
 // app modules
-
+const errorHandler = require('./lib/error_handler');
 
 // constant variables
 const port = process.env.PORT || 3000;
@@ -21,14 +23,20 @@ mongoose.Promise = Promise;
 app.use(morgan('dev'));
 
 // setup routes
-let authRouter = require('./routes/auth_router.js');
-let serverError = require('debug')('cfdeme:error');
+app.all('*', function(req, res, next) {
+  debug('404 * route');
+  const err = httpErrors(404, 'no such route');
+  next(err);
+});
+// let authRouter = require('./routes/auth_router.js');
+// let serverError = require('debug')('auth:error-handler');
+app.use(errorHandler);
 
-app.use('/api', authRouter);
+// app.use('/api', authRouter);
 
 app.use((err, req, res, next) => {
   serverError(err);
   res.status(err.statusCode || 500).json(err.error.message);
 });
-app.listen(port, () => console.log('Server up', port));
+app.listen(port, () => console.log('Server up Port:', port));
 module.exports = ('server');
