@@ -5,6 +5,7 @@ const jsonParser = require('body-parser').json;
 const ErrorHandler = require('../lib/error_handler');
 const User = require('../model/user.js');
 const BasicHTTP = require('../lib/basic_http.js');
+const httpError = require('http-errors');
 
 let authRouter = module.exports = exports = Router();
 

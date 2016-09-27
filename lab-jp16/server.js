@@ -24,7 +24,7 @@ app.use(morgan('dev'));
 
 // setup routes
 app.all('*', function(req, res, next) {
-  debug('404 * route');
+  // debug('404 * route');
   const err = httpErrors(404, 'no such route');
   next(err);
 });

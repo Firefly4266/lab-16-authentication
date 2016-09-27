@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 let userSchema = mongoose.Schema({
-  username: String,
+  username: { type: String, required: true, unique: true },
   basic: {
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true }
@@ -25,7 +25,7 @@ userSchema.methods.comparePassword = function(password) {
   return new Promise((resolve, reject) => {
     bcrypt.compare(password, this.basic.password, (err, data) => {
       if (err) return reject(err);
-      if (data === false) return reject(new Error('Password did not match record'));
+      if (data === false) return reject(httpErrors(401 'Password did not match record'));
       resolve({ token: jwt.sign({ idd: this.basic.email }, process.env.APP_SECRET) });
     });
   });
