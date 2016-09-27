@@ -1,7 +1,6 @@
 'use strict';
 
 const debug = require('debug')('auth:error-handler');
-// const errorMsg = require('debug')('auth:error-handler');
 const httpErrors = require('http-errors');
 
 module.exports = exports = function(err, req, res, next) {

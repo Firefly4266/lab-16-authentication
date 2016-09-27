@@ -28,15 +28,15 @@ app.all('*', function(req, res, next) {
   const err = httpErrors(404, 'no such route');
   next(err);
 });
-// let authRouter = require('./routes/auth_router.js');
-// let serverError = require('debug')('auth:error-handler');
+
 app.use(errorHandler);
 
-// app.use('/api', authRouter);
 
 app.use((err, req, res, next) => {
   serverError(err);
   res.status(err.statusCode || 500).json(err.error.message);
 });
+
+// Start server
 app.listen(port, () => console.log('Server up Port:', port));
 module.exports = ('server');
